@@ -1210,3 +1210,74 @@ body.large-text .btn-switch { font-size: 1.25rem; }
   font-size: 0.85rem;
   border-top: 1px solid var(--border-glass);
 }
+
+/* SVG Map CSS Classes replacing presentation attributes */
+.stadium-outer-ring {
+  fill: none;
+  stroke: hsla(230, 20%, 30%, 0.3);
+  stroke-width: 12px;
+}
+.stadium-inner-ring {
+  fill: hsla(230, 25%, 5%, 0.6);
+  stroke: hsla(230, 20%, 30%, 0.2);
+  stroke-width: 2px;
+}
+.pitch-oval-border {
+  fill: none;
+  stroke: hsla(230, 20%, 30%, 0.5);
+  stroke-width: 3px;
+}
+.stadium-pitch {
+  fill: url(#pitchGrad);
+  stroke: rgba(255, 255, 255, 0.27);
+  stroke-width: 2px;
+}
+.pitch-line {
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 1.5px;
+}
+.pitch-circle {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 1.5px;
+}
+.pitch-box {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 1.5px;
+}
+.gate-marker {
+  fill: hsl(185, 90%, 50%);
+}
+.gate-text {
+  font-size: 8px;
+  font-family: var(--font-primary);
+  font-weight: 800;
+  fill: #070b19;
+  text-anchor: middle;
+}
+
+/* Alignment Document details styling */
+.alignment-details {
+  width: 100%;
+}
+.alignment-summary {
+  font-weight: 800;
+  cursor: pointer;
+  color: var(--secondary);
+  outline: none;
+  user-select: none;
+}
+.alignment-summary:hover {
+  color: #fff;
+  text-shadow: 0 0 10px var(--secondary-glow);
+}
+.alignment-content {
+  margin-top: 1rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

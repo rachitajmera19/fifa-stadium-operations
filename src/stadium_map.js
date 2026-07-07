@@ -78,8 +78,8 @@ export function renderStadiumMap(containerId, onSelectSector) {
       </defs>
       
       <!-- Outer Stadium Bowl Ring -->
-      <ellipse cx="250" cy="200" rx="200" ry="160" fill="none" stroke="hsla(230, 20%, 30%, 0.3)" stroke-width="12" filter="url(#glow)"/>
-      <ellipse cx="250" cy="200" rx="190" ry="150" fill="hsla(230, 25%, 5%, 0.6)" stroke="hsla(230, 20%, 30%, 0.2)" stroke-width="2"/>
+      <ellipse cx="250" cy="200" rx="200" ry="160" class="stadium-outer-ring" filter="url(#glow)"/>
+      <ellipse cx="250" cy="200" rx="190" ry="150" class="stadium-inner-ring"/>
       
       <!-- Sectors -->
       ${Object.keys(sectorsData).map(key => {
@@ -98,40 +98,40 @@ export function renderStadiumMap(containerId, onSelectSector) {
       }).join('')}
       
       <!-- Inside Stadium Oval Border -->
-      <ellipse cx="250" cy="200" rx="80" ry="55" fill="none" stroke="hsla(230, 20%, 30%, 0.5)" stroke-width="3"/>
+      <ellipse cx="250" cy="200" rx="80" ry="55" class="pitch-oval-border"/>
       
       <!-- Football Pitch (Center Stage) -->
-      <rect x="195" y="160" width="110" height="80" rx="4" fill="url(#pitchGrad)" stroke="#ffffff44" stroke-width="2" />
+      <rect x="195" y="160" width="110" height="80" rx="4" class="stadium-pitch" />
       <!-- Pitch Lines -->
-      <line x1="250" y1="160" x2="250" y2="240" stroke="#ffffff33" stroke-width="1.5" />
-      <circle cx="250" cy="200" r="18" fill="none" stroke="#ffffff33" stroke-width="1.5" />
-      <rect x="195" y="180" width="15" height="40" fill="none" stroke="#ffffff33" stroke-width="1.5" />
-      <rect x="290" y="180" width="15" height="40" fill="none" stroke="#ffffff33" stroke-width="1.5" />
+      <line x1="250" y1="160" x2="250" y2="240" class="pitch-line" />
+      <circle cx="250" cy="200" r="18" class="pitch-circle" />
+      <rect x="195" y="180" width="15" height="40" class="pitch-box" />
+      <rect x="290" y="180" width="15" height="40" class="pitch-box" />
       
       <!-- Outer Entry Gates Markers -->
       <!-- Gate A (Top Left) -->
-      <circle cx="120" cy="90" r="8" fill="hsl(185, 90%, 50%)" />
-      <text x="120" y="93" font-size="8" font-family="Outfit" font-weight="800" fill="#070b19" text-anchor="middle">A</text>
+      <circle cx="120" cy="90" r="8" class="gate-marker" />
+      <text x="120" y="93" class="gate-text">A</text>
       
       <!-- Gate B (Top Right) -->
-      <circle cx="380" cy="90" r="8" fill="hsl(185, 90%, 50%)" />
-      <text x="380" y="93" font-size="8" font-family="Outfit" font-weight="800" fill="#070b19" text-anchor="middle">B</text>
+      <circle cx="380" cy="90" r="8" class="gate-marker" />
+      <text x="380" y="93" class="gate-text">B</text>
       
       <!-- Gate C (Right) -->
-      <circle cx="430" cy="200" r="8" fill="hsl(185, 90%, 50%)" />
-      <text x="430" y="203" font-size="8" font-family="Outfit" font-weight="800" fill="#070b19" text-anchor="middle">C</text>
+      <circle cx="430" cy="200" r="8" class="gate-marker" />
+      <text x="430" y="203" class="gate-text">C</text>
       
       <!-- Gate D (Bottom Right) -->
-      <circle cx="380" cy="310" r="8" fill="hsl(185, 90%, 50%)" />
-      <text x="380" y="313" font-size="8" font-family="Outfit" font-weight="800" fill="#070b19" text-anchor="middle">D</text>
+      <circle cx="380" cy="310" r="8" class="gate-marker" />
+      <text x="380" y="313" class="gate-text">D</text>
       
       <!-- Gate E (Bottom Left) -->
-      <circle cx="120" cy="310" r="8" fill="hsl(185, 90%, 50%)" />
-      <text x="120" y="313" font-size="8" font-family="Outfit" font-weight="800" fill="#070b19" text-anchor="middle">E</text>
+      <circle cx="120" cy="310" r="8" class="gate-marker" />
+      <text x="120" y="313" class="gate-text">E</text>
       
       <!-- Gate F (Left) -->
-      <circle cx="70" cy="200" r="8" fill="hsl(185, 90%, 50%)" />
-      <text x="70" y="203" font-size="8" font-family="Outfit" font-weight="800" fill="#070b19" text-anchor="middle">F</text>
+      <circle cx="70" cy="200" r="8" class="gate-marker" />
+      <text x="70" y="203" class="gate-text">F</text>
       
     </svg>
   `;
