@@ -17,10 +17,18 @@ export function setApiKey(key) {
   }
 }
 
+/**
+ * Retrieves the current client-side Gemini API key.
+ * @returns {string} The active API key.
+ */
 export function getApiKey() {
   return geminiApiKey;
 }
 
+/**
+ * Checks if the Gemini API key is configured.
+ * @returns {boolean} True if the key is not empty.
+ */
 export function isApiConfigured() {
   return geminiApiKey.length > 0;
 }
@@ -204,9 +212,10 @@ export function getSimulatedResponse(query) {
 
 /**
  * Query executor calling Google Gemini API or falling back to Local TF-IDF search.
- * @param {string} message 
- * @param {boolean} isStaff 
- * @returns {string} Response string
+ * @param {string} message User input query string.
+ * @param {boolean} [isStaff=false] Staff operations view toggle.
+ * @param {object|null} [telemetryContext=null] Live MetLife stadium metrics.
+ * @returns {Promise<string>} Response string from model or local matcher.
  */
 export async function askAegis(message, isStaff = false, telemetryContext = null) {
   if (isApiConfigured()) {
