@@ -23,15 +23,23 @@
       </div>
     </div>
 
-    <!-- Toggle between Fan Experience and Organizer Command Center -->
-    <nav class="view-switcher" aria-label="Application Interface Mode Switcher" role="tablist">
-      <button id="btn-view-fan" class="btn-switch active" aria-controls="panel-fan" aria-selected="true" role="tab">
-        👤 Fan Companion
-      </button>
-      <button id="btn-view-staff" class="btn-switch" aria-controls="panel-staff" aria-selected="false" role="tab">
-        ⚙️ Operations Command
-      </button>
-    </nav>
+    <div class="header-controls">
+      <!-- Match Selector Dropdown -->
+      <select id="select-matchday" class="match-select" aria-label="Select active FIFA Matchday setup">
+        <option value="match-1">ARG vs GER (82,500 Fans)</option>
+        <option value="match-2">USA vs ITA (80,200 Fans)</option>
+      </select>
+
+      <!-- Toggle between Fan Experience and Organizer Command Center -->
+      <nav class="view-switcher" aria-label="Application Interface Mode Switcher" role="tablist">
+        <button id="btn-view-fan" class="btn-switch active" aria-controls="panel-fan" aria-selected="true" role="tab">
+          👤 Fan Companion
+        </button>
+        <button id="btn-view-staff" class="btn-switch" aria-controls="panel-staff" aria-selected="false" role="tab">
+          ⚙️ Operations Command
+        </button>
+      </nav>
+    </div>
   </header>
 
   <!-- Main Content Container -->

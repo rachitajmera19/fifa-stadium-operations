@@ -2,9 +2,42 @@
 import { renderStadiumMap, updateSectorState } from './stadium_map.js';
 import { askAegis, setApiKey, getApiKey, isApiConfigured, sanitizeHTML } from './ai_engine.js';
 
-// Application State
+/**
+ * @typedef {Object} Sector
+ * @property {string} id
+ * @property {string} name
+ * @property {number} capacity
+ * @property {string} risk
+ * @property {number} waitRestroom
+ * @property {number} waitConcessions
+ * @property {string} gates
+ * @property {string} description
+ * @property {string} coordinates
+ */
+
+/**
+ * @typedef {Object} Alert
+ * @property {string} id
+ * @property {string} title
+ * @property {string} desc
+ * @property {string} type
+ * @property {string} time
+ * @property {string} sectorId
+ */
+
+/**
+ * @typedef {Object} Steward
+ * @property {string} id
+ * @property {string} name
+ * @property {string} status
+ * @property {string|null} sectorId
+ */
+
+/**
+ * Global Application State
+ */
 const state = {
-  currentView: 'fan', // 'fan' or 'staff'
+  currentView: 'fan',
   selectedSector: null,
   isSpeechActive: false,
   isA11yHudActive: false,
@@ -12,6 +45,7 @@ const state = {
   hvacLevel: 75,
   waterLevel: 75,
   lightingLevel: 80,
+  currentMatch: 'match-1',
   alerts: [
     {
       id: 'alert-1',
@@ -38,6 +72,34 @@ const state = {
   ]
 };
 
+/**
+ * FIFA Matchday Configurations for alignment objectives.
+ */
+const MATCH_CONFIGS = {
+  'match-1': {
+    name: 'Argentina vs. Germany (Matchday 4)',
+    attendance: '82,500 Fans',
+    capacities: {
+      'sector-north': 65,
+      'sector-south': 92,
+      'sector-east': 78,
+      'sector-west': 55,
+      'sector-vip': 40
+    }
+  },
+  'match-2': {
+    name: 'USA vs. Italy (Round of 16)',
+    attendance: '80,200 Fans',
+    capacities: {
+      'sector-north': 85,
+      'sector-south': 88,
+      'sector-east': 70,
+      'sector-west': 65,
+      'sector-vip': 50
+    }
+  }
+};
+
 // Web Speech API interfaces
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognition = null;
@@ -55,12 +117,14 @@ document.addEventListener('DOMContentLoaded', () => {
   initSpeechSystem();
   loadStoredSettings();
   
-  // Show welcome chat message
-  addMessage('ai', "Hello! I am Aegis, your AI Stadium Operations and Fan Experience Assistant. How can I help you today?", 'fan');
-  addMessage('ai', "Aegis Operations Center online. Monitoring MetLife Stadium infrastructure. Real-time parameters stable.", 'staff');
+  // Show welcome chat messages
+  addMessage('ai', 'Hello! I am Aegis, your AI Stadium Operations and Fan Experience Assistant. How can I help you today?', 'fan');
+  addMessage('ai', 'Aegis Operations Center online. Monitoring MetLife Stadium infrastructure. Real-time parameters stable.', 'staff');
 });
 
-// Setup DOM element controllers
+/**
+ * Initializes stadium map interfaces and UI displays.
+ */
 function initUI() {
   const selectHandler = (sector) => {
     state.selectedSector = sector;
@@ -75,6 +139,9 @@ function initUI() {
   updateEnergySavings();
 }
 
+/**
+ * Re-renders the stadium map element based on active view.
+ */
 function renderMapComponent() {
   const containerId = state.currentView === 'fan' ? 'stadium-map-fan' : 'stadium-map-staff';
   renderStadiumMap(containerId, (sector) => {
@@ -83,6 +150,9 @@ function renderMapComponent() {
   });
 }
 
+/**
+ * Binds all click, input, and configuration action listeners.
+ */
 function initEventListeners() {
   // View Switcher Buttons
   const btnFan = document.getElementById('btn-view-fan');
@@ -180,30 +250,30 @@ function initEventListeners() {
       sliderWater.value = 95;
       sliderLighting.value = 60;
       updateSustainabilityStats(55, 95, 60);
-      addMessage('ai', "🌱 **AI Sustainability Protocol Activated:** HVAC cooled output reduced to 55%. Greywater grid efficiency bumped to 95%. LED output reduced to 60%. Smart grid savings optimized.", 'staff');
+      addMessage('ai', '🌱 **AI Sustainability Protocol Activated:** HVAC cooled output reduced to 55%. Greywater grid efficiency bumped to 95%. LED output reduced to 60%. Smart grid savings optimized.', 'staff');
     } else {
       sliderHvac.value = 75;
       sliderWater.value = 75;
       sliderLighting.value = 80;
       updateSustainabilityStats(75, 75, 80);
-      addMessage('ai', "⚙️ **Standard Operations Restored:** HVAC levels reset to 75%. Water grid reset to 75%. Lighting levels reset to 80%.", 'staff');
+      addMessage('ai', '⚙️ **Standard Operations Restored:** HVAC levels reset to 75%. Water grid reset to 75%. Lighting levels reset to 80%.', 'staff');
     }
   });
 
   sliderHvac.addEventListener('input', (e) => {
-    state.hvacLevel = parseInt(e.target.value);
+    state.hvacLevel = parseInt(e.target.value, 10);
     document.getElementById('lbl-hvac-val').innerText = `${state.hvacLevel}%`;
     updateEnergySavings();
   });
 
   sliderWater.addEventListener('input', (e) => {
-    state.waterLevel = parseInt(e.target.value);
+    state.waterLevel = parseInt(e.target.value, 10);
     document.getElementById('lbl-water-val').innerText = `${state.waterLevel}%`;
     updateEnergySavings();
   });
 
   sliderLighting.addEventListener('input', (e) => {
-    state.lightingLevel = parseInt(e.target.value);
+    state.lightingLevel = parseInt(e.target.value, 10);
     document.getElementById('lbl-lighting-val').innerText = `${state.lightingLevel}%`;
     updateEnergySavings();
   });
@@ -257,10 +327,13 @@ function initEventListeners() {
     document.getElementById('transit-train-status-staff').style.color = 'var(--danger)';
     
     // 2. Update badges
-    document.getElementById('transit-indicator-fan').innerText = 'INCIDENT LEVEL 1';
-    document.getElementById('transit-indicator-fan').style.background = 'var(--danger)';
-    document.getElementById('transit-indicator-staff').innerText = 'INCIDENT LEVEL 1';
-    document.getElementById('transit-indicator-staff').style.background = 'var(--danger)';
+    const indicatorFan = document.getElementById('transit-indicator-fan');
+    const indicatorStaff = document.getElementById('transit-indicator-staff');
+    
+    indicatorFan.innerText = 'INCIDENT LEVEL 1';
+    indicatorFan.className = 'logo-badge badge-danger-sm';
+    indicatorStaff.innerText = 'INCIDENT LEVEL 1';
+    indicatorStaff.className = 'logo-badge badge-danger-sm';
 
     // 3. Highlight North Stand (station exit concourse) to high danger capacity
     updateSectorState('sector-north', { 
@@ -272,16 +345,22 @@ function initEventListeners() {
     });
 
     // 4. Update HUD metrics
-    document.getElementById('lbl-safety-val').innerText = '78%';
-    document.getElementById('lbl-safety-val').style.color = 'var(--danger)';
-    document.getElementById('lbl-grid-val').innerText = '85%';
-    document.getElementById('lbl-grid-val').style.color = 'var(--danger)';
+    const safetyVal = document.getElementById('lbl-safety-val');
+    const gridVal = document.getElementById('lbl-grid-val');
+    const queueVal = document.getElementById('lbl-queue-val');
+    
+    safetyVal.innerText = '78%';
+    safetyVal.className = 'metric-value txt-danger';
+    gridVal.innerText = '85%';
+    gridVal.className = 'metric-value txt-danger';
     
     // Update Load Bar
-    document.getElementById('lbl-queue-val').innerText = 'CRITICAL (72%)';
-    document.getElementById('lbl-queue-val').style.color = 'var(--danger)';
-    document.getElementById('bar-queue-load').style.width = '72%';
-    document.getElementById('bar-queue-load').style.background = 'linear-gradient(90deg, var(--warning), var(--danger))';
+    queueVal.innerText = 'CRITICAL (72%)';
+    queueVal.style.color = 'var(--danger)';
+    
+    const loadBar = document.getElementById('bar-queue-load');
+    loadBar.style.width = '72%';
+    loadBar.style.background = 'linear-gradient(90deg, var(--warning), var(--danger))';
 
     // 5. Append alert
     const newAlert = {
@@ -296,7 +375,7 @@ function initEventListeners() {
     updateAlertsFeed();
 
     // 6. Append AI Assistant Message
-    addMessage('ai', `🚨 **Meadowlands Transit Alert:** Express rail lines to Manhattan are delayed. Crowd backlog detected in Sector North. Advise staff to re-route passengers to Concourse A/B Shuttle Bus loops. Recommended dispatcher deploy 2 stewards immediately.`, 'staff');
+    addMessage('ai', '🚨 **Meadowlands Transit Alert:** Express rail lines to Manhattan are delayed. Crowd backlog detected in Sector North. Advise staff to re-route passengers to Concourse A/B Shuttle Bus loops. Recommended dispatcher deploy 2 stewards immediately.', 'staff');
     
     if (state.selectedSector && state.selectedSector.id === 'sector-north') {
       state.selectedSector = {
@@ -325,10 +404,13 @@ function initEventListeners() {
     document.getElementById('transit-train-status-staff').style.color = 'var(--success)';
     
     // 2. Reset badges
-    document.getElementById('transit-indicator-fan').innerText = 'STABLE RUNNING';
-    document.getElementById('transit-indicator-fan').style.background = 'var(--success)';
-    document.getElementById('transit-indicator-staff').innerText = 'STABLE RUNNING';
-    document.getElementById('transit-indicator-staff').style.background = 'var(--success)';
+    const indicatorFan = document.getElementById('transit-indicator-fan');
+    const indicatorStaff = document.getElementById('transit-indicator-staff');
+    
+    indicatorFan.innerText = 'STABLE RUNNING';
+    indicatorFan.className = 'logo-badge badge-success-sm';
+    indicatorStaff.innerText = 'STABLE RUNNING';
+    indicatorStaff.className = 'logo-badge badge-success-sm';
 
     // 3. Reset North Stand
     updateSectorState('sector-north', { 
@@ -340,23 +422,29 @@ function initEventListeners() {
     });
 
     // 4. Reset HUD metrics
-    document.getElementById('lbl-safety-val').innerText = '94%';
-    document.getElementById('lbl-safety-val').style.color = 'var(--success)';
-    document.getElementById('lbl-grid-val').innerText = '98.8%';
-    document.getElementById('lbl-grid-val').style.color = 'var(--secondary)';
+    const safetyVal = document.getElementById('lbl-safety-val');
+    const gridVal = document.getElementById('lbl-grid-val');
+    const queueVal = document.getElementById('lbl-queue-val');
+    
+    safetyVal.innerText = '94%';
+    safetyVal.className = 'metric-value txt-success';
+    gridVal.innerText = '98.8%';
+    gridVal.className = 'metric-value txt-secondary';
     
     // Reset Load Bar
-    document.getElementById('lbl-queue-val').innerText = 'MODERATE (42%)';
-    document.getElementById('lbl-queue-val').style.color = 'var(--warning)';
-    document.getElementById('bar-queue-load').style.width = '42%';
-    document.getElementById('bar-queue-load').style.background = 'linear-gradient(90deg, var(--success), var(--warning))';
+    queueVal.innerText = 'MODERATE (42%)';
+    queueVal.style.color = 'var(--warning)';
+    
+    const loadBar = document.getElementById('bar-queue-load');
+    loadBar.style.width = '42%';
+    loadBar.style.background = 'linear-gradient(90deg, var(--success), var(--warning))';
 
     // 5. Clear alert
     state.alerts = state.alerts.filter(a => a.id !== 'alert-transit-delay');
     updateAlertsFeed();
 
     // 6. Log completion
-    addMessage('ai', `✅ **Transit Operations Restored:** Special rail express trains departing normally. Platforms cleared. Concourse flow stabilized.`, 'staff');
+    addMessage('ai', '✅ **Transit Operations Restored:** Special rail express trains departing normally. Platforms cleared. Concourse flow stabilized.', 'staff');
     
     if (state.selectedSector && state.selectedSector.id === 'sector-north') {
       state.selectedSector = {
@@ -376,8 +464,86 @@ function initEventListeners() {
     btnSimulateTransit.style.display = 'block';
     btnRestoreTransit.style.display = 'none';
   });
+
+  // Matchday Selection Change Trigger
+  const selectMatch = document.getElementById('select-matchday');
+  selectMatch.addEventListener('change', (e) => {
+    handleMatchdayChange(e.target.value);
+  });
 }
 
+/**
+ * Handles dynamic matchday selection and updates initial capacities.
+ * @param {string} matchId 
+ */
+function handleMatchdayChange(matchId) {
+  state.currentMatch = matchId;
+  const config = MATCH_CONFIGS[matchId];
+  if (!config) return;
+
+  // 1. Reset all sector capacities in memory and trigger SVG color changes
+  Object.keys(config.capacities).forEach(sectorId => {
+    const cap = config.capacities[sectorId];
+    const risk = cap >= 90 ? 'high' : (cap >= 70 ? 'medium' : 'low');
+    
+    updateSectorState(sectorId, {
+      capacity: cap,
+      risk: risk
+    });
+  });
+
+  // 2. Setup matchday active alerts
+  if (matchId === 'match-2') {
+    state.alerts = [
+      {
+        id: 'alert-match2-crowd',
+        title: 'North Stand High Inflow',
+        desc: 'Gate A queue wait exceeds 20 minutes. Commuters backing up.',
+        type: 'alert-warning',
+        time: '18:00',
+        sectorId: 'sector-north'
+      }
+    ];
+  } else {
+    state.alerts = [
+      {
+        id: 'alert-1',
+        title: 'South Stand Congestion',
+        desc: 'Active supporters area exceeding 90% capacity. Restroom wait times exceed 25 mins.',
+        type: 'alert-danger',
+        time: '13:42',
+        sectorId: 'sector-south'
+      },
+      {
+        id: 'alert-2',
+        title: 'Gate C Sensor Failure',
+        desc: 'Turnstile A4 card reader offline. Manual tickets verification active.',
+        type: 'alert-warning',
+        time: '13:35',
+        sectorId: 'sector-east'
+      }
+    ];
+  }
+
+  // 3. Clear selected sector details
+  state.selectedSector = null;
+  updateSectorDetailsPanel();
+  updateAlertsFeed();
+  
+  // Reset HUD safety parameters
+  document.getElementById('lbl-safety-val').innerText = '94%';
+  document.getElementById('lbl-safety-val').className = 'metric-value txt-success';
+  document.getElementById('lbl-grid-val').innerText = '98.8%';
+  document.getElementById('lbl-grid-val').className = 'metric-value txt-secondary';
+
+  addMessage('ai', `⚽ **FIFA Matchday Context Loaded:** Active match set to **${config.name}** (${config.attendance}). Stadium telemetry updated.`, 'staff');
+  addMessage('ai', `🏟️ Welcome to MetLife Stadium! We are hosting **${config.name}** today. Use the chat below to navigate services.`, 'fan');
+}
+
+/**
+ * Handles view switching toggles.
+ * @param {string} view 
+ */
 function switchView(view) {
   state.currentView = view;
   
@@ -396,7 +562,9 @@ function switchView(view) {
   if (container) container.scrollTop = container.scrollHeight;
 }
 
-// Load settings from localStorage
+/**
+ * Load settings from localStorage cache
+ */
 function loadStoredSettings() {
   const txtApiKey = document.getElementById('txt-api-key');
   txtApiKey.value = getApiKey();
@@ -419,6 +587,9 @@ function loadStoredSettings() {
   }
 }
 
+/**
+ * Updates browser API key connection badges
+ */
 function updateApiKeyStatus() {
   const isConfigured = isApiConfigured();
   const dots = document.querySelectorAll('.status-dot');
@@ -433,7 +604,9 @@ function updateApiKeyStatus() {
   });
 }
 
-// Speech vocalization triggers
+/**
+ * Web Speech API speech recognition initialization
+ */
 function initSpeechSystem() {
   const voiceBtnFan = document.getElementById('btn-voice-fan');
   const voiceBtnStaff = document.getElementById('btn-voice-staff');
@@ -474,6 +647,10 @@ function initSpeechSystem() {
   if (voiceBtnStaff) setupSpeech(voiceBtnStaff, 'staff');
 }
 
+/**
+ * Synthesizes text voice output and logs it on visual HUD log
+ * @param {string} text 
+ */
 export function speak(text) {
   // 1. Display on visual HUD
   const hud = document.getElementById('a11y-speech-hud');
@@ -481,7 +658,6 @@ export function speak(text) {
   
   if (hud && textEl) {
     textEl.innerText = `"${text}"`;
-    // Flashing visual border pulse animation
     hud.style.borderColor = 'var(--accent-pink)';
     setTimeout(() => {
       hud.style.borderColor = 'var(--secondary)';
@@ -498,15 +674,16 @@ export function speak(text) {
   }
 }
 
-// Chat submitting engine
+/**
+ * Handlers chat submissions, constructs telemetry context, and queries askAegis.
+ * @param {string} view 
+ */
 async function handleChatSubmit(view) {
   const inputEl = document.getElementById(`txt-input-${view}`);
   const text = inputEl.value.trim();
   if (!text) return;
   
-  // Safe HTML escapes
   const cleanInput = sanitizeHTML(text);
-  
   addMessage('user', cleanInput, view);
   inputEl.value = '';
   
@@ -542,12 +719,18 @@ async function handleChatSubmit(view) {
   updateMessage(loadingMsgId, response, view);
   
   if (state.isSpeechActive || view === 'fan') {
-    // Escapes special markdown markup characters before synthesizing speech
     const speechText = response.replace(/[#*`]/g, '').substring(0, 160) + '...';
     speak(speechText);
   }
 }
 
+/**
+ * Creates and appends chat message bubble to dynamic log container.
+ * @param {string} sender 
+ * @param {string} text 
+ * @param {string} view 
+ * @returns {string} Message DOM element unique ID
+ */
 function addMessage(sender, text, view) {
   const chatMsgs = document.getElementById(`chat-messages-${view}`);
   if (!chatMsgs) return null;
@@ -563,6 +746,12 @@ function addMessage(sender, text, view) {
   return id;
 }
 
+/**
+ * Updates loading message bubbles with clean response.
+ * @param {string} id 
+ * @param {string} text 
+ * @param {string} view 
+ */
 function updateMessage(id, text, view) {
   const msgEl = document.getElementById(id);
   if (msgEl) {
@@ -572,6 +761,11 @@ function updateMessage(id, text, view) {
   }
 }
 
+/**
+ * Utility markdown styling formatter.
+ * @param {string} text 
+ * @returns {string} Formatted HTML string
+ */
 function formatMarkdown(text) {
   return text
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
@@ -581,13 +775,15 @@ function formatMarkdown(text) {
     .replace(/\n/g, '<br/>');
 }
 
-// Alert mitigation
+/**
+ * Refreshes dynamic incident alerts feed.
+ */
 function updateAlertsFeed() {
   const alertsList = document.getElementById('alerts-feed-list');
   if (!alertsList) return;
   
   if (state.alerts.length === 0) {
-    alertsList.innerHTML = `<div class="detail-label" style="text-align:center; padding: 2rem;">No active operation incidents. All systems normal.</div>`;
+    alertsList.innerHTML = '<div class="detail-label text-center-padding">No active operation incidents. All systems normal.</div>';
     return;
   }
   
@@ -611,7 +807,6 @@ function updateAlertsFeed() {
       
       updateSectorState(sectorId, { risk: 'low', capacity: 70 });
       
-      // If resolving train delay alert, reset buttons UI
       if (alertId === 'alert-transit-delay') {
         document.getElementById('btn-restore-transit').click();
         return;
@@ -630,6 +825,9 @@ function updateAlertsFeed() {
   });
 }
 
+/**
+ * Refreshes available stewards list.
+ */
 function updatePersonnelList() {
   const list = document.getElementById('dispatch-list-container');
   const dropdown = document.getElementById('select-personnel');
@@ -641,7 +839,7 @@ function updatePersonnelList() {
         <span class="personnel-name">${p.name}</span>
         <span class="personnel-status">${p.status}</span>
       </div>
-      ${p.sectorId ? `<button class="btn-dispatch-action recall-btn" data-id="${p.id}">Recall</button>` : `<span class="detail-label">STANDBY</span>`}
+      ${p.sectorId ? `<button class="btn-dispatch-action recall-btn" data-id="${p.id}">Recall</button>` : '<span class="detail-label">STANDBY</span>'}
     </div>
   `).join('');
 
@@ -651,7 +849,7 @@ function updatePersonnelList() {
     .join('');
 
   if (dropdown.options.length === 0) {
-    dropdown.innerHTML = `<option value="">All Stewards Deployed</option>`;
+    dropdown.innerHTML = '<option value="">All Stewards Deployed</option>';
   }
 
   list.querySelectorAll('.recall-btn').forEach(btn => {
@@ -669,13 +867,16 @@ function updatePersonnelList() {
   });
 }
 
+/**
+ * Refreshes sector metadata panel
+ */
 function updateSectorDetailsPanel() {
   const panelId = state.currentView === 'fan' ? 'sector-detail-fan' : 'sector-detail-staff';
   const panel = document.getElementById(panelId);
   if (!panel) return;
   
   if (!state.selectedSector) {
-    panel.innerHTML = `<div class="detail-label" style="text-align:center; padding: 2rem;">Select a stadium sector on the map above to view real-time parameters.</div>`;
+    panel.innerHTML = '<div class="detail-label text-center-padding">Select a stadium sector on the map above to view real-time parameters.</div>';
     return;
   }
   
@@ -705,13 +906,19 @@ function updateSectorDetailsPanel() {
         <span class="detail-value">${sector.waitConcessions} mins</span>
       </div>
     </div>
-    <div class="detail-item" style="margin-top: 0.5rem;">
+    <div class="detail-item margin-top-sm">
       <span class="detail-label">Aegis Guidance</span>
       <p style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 4px;">${sector.description}</p>
     </div>
   `;
 }
 
+/**
+ * Updates energy grids stats variables.
+ * @param {number} hvac 
+ * @param {number} water 
+ * @param {number} lighting 
+ */
 function updateSustainabilityStats(hvac, water, lighting) {
   state.hvacLevel = hvac;
   state.waterLevel = water;
@@ -723,6 +930,9 @@ function updateSustainabilityStats(hvac, water, lighting) {
   updateEnergySavings();
 }
 
+/**
+ * Updates dynamic sustainability savings calculation models.
+ */
 function updateEnergySavings() {
   const hvacSavings = (100 - state.hvacLevel) * 120;
   const waterSavings = (state.waterLevel - 50) * 80;
@@ -733,6 +943,9 @@ function updateEnergySavings() {
   if (label) label.innerText = `${totalSavings.toLocaleString()} kWh/hr`;
 }
 
+/**
+ * Refreshes HUD stewards statistics counters
+ */
 function updatePersonnelCounts() {
   const dispatched = state.personnel.filter(p => p.sectorId !== null).length;
   const total = state.personnel.length;

@@ -1281,3 +1281,26 @@ body.large-text .btn-switch { font-size: 1.25rem; }
   flex-direction: column;
   gap: 8px;
 }
+
+.header-controls {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+.match-select {
+  background: hsla(230, 30%, 5%, 0.95);
+  border: 1px solid var(--border-glass);
+  color: var(--secondary);
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition-fast);
+}
+.match-select:focus {
+  border-color: var(--secondary);
+  box-shadow: 0 0 15px var(--secondary-glow);
+}
