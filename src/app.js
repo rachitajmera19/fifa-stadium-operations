@@ -510,8 +510,34 @@ async function handleChatSubmit(view) {
   addMessage('user', cleanInput, view);
   inputEl.value = '';
   
+  // Dynamic Context Builder
+  const telemetryContext = {
+    selectedSector: state.selectedSector ? {
+      name: state.selectedSector.name,
+      capacity: state.selectedSector.capacity,
+      risk: state.selectedSector.risk,
+      waitRestroom: state.selectedSector.waitRestroom,
+      waitConcessions: state.selectedSector.waitConcessions,
+      gates: state.selectedSector.gates,
+      description: state.selectedSector.description
+    } : null,
+    activeAlerts: state.alerts.map(a => `${a.title}: ${a.desc}`),
+    hudMetrics: {
+      safetyRating: document.getElementById('lbl-safety-val')?.innerText || '94%',
+      stewardsCount: document.getElementById('lbl-dispatch-count')?.innerText || '1 / 4',
+      gridStability: document.getElementById('lbl-grid-val')?.innerText || '98.8%',
+      queueLoad: document.getElementById('lbl-queue-val')?.innerText || 'MODERATE (42%)'
+    },
+    ecoSavings: document.getElementById('lbl-sustainability-savings')?.innerText || '0 kWh/hr',
+    sustainabilitySettings: {
+      hvacOutput: `${state.hvacLevel}%`,
+      waterRecycle: `${state.waterLevel}%`,
+      ledOutput: `${state.lightingLevel}%`
+    }
+  };
+
   const loadingMsgId = addMessage('ai', 'Thinking...', view);
-  const response = await askAegis(text, view === 'staff');
+  const response = await askAegis(text, view === 'staff', telemetryContext);
   
   updateMessage(loadingMsgId, response, view);
   
