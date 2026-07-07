@@ -1,0 +1,15 @@
+{
+  "name": "fifa-stadium-operations",
+  "version": "1.0.0",
+  "description": "Aegis FIFA 2026: Smart Stadium & Tournament Operations Command Center & Fan Companion",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "vite": "^6.0.0"
+  }
+}

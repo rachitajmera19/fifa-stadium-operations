@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aegis FIFA 2026: Real-time Smart Stadium Operations Command Center and Fan Experience Companion for the FIFA World Cup 2026. Powered by Google Generative AI.">
+  <meta name="keywords" content="FIFA 2026, Smart Stadium, Tournament Operations, Crowd Management, GenAI Assistant, Gemini, MetLife Stadium">
+  <title>Aegis FIFA 2026 — Smart Stadium Command Center & Assistant</title>
+  <link rel="stylesheet" href="./src/index.css">
+</head>
+<body>
+
+  <!-- Screen Reader Skip Links -->
+  <a href="#main-content" class="skip-link">Skip to Main Content</a>
+
+  <!-- App Header & Switcher Bar -->
+  <header class="app-header" role="banner">
+    <div class="brand-wrapper">
+      <div class="logo-badge" aria-hidden="true">FIFA 26</div>
+      <div class="brand-title">
+        <h1>AEGIS COMMAND</h1>
+        <div class="brand-subtitle">Smart Stadium Operations & Assistant</div>
+      </div>
+    </div>
+
+    <!-- Toggle between Fan Experience and Organizer Command Center -->
+    <nav class="view-switcher" aria-label="Application Interface Mode Switcher" role="tablist">
+      <button id="btn-view-fan" class="btn-switch active" aria-controls="panel-fan" aria-selected="true" role="tab">
+        👤 Fan Companion
+      </button>
+      <button id="btn-view-staff" class="btn-switch" aria-controls="panel-staff" aria-selected="false" role="tab">
+        ⚙️ Operations Command
+      </button>
+    </nav>
+  </header>
+
+  <!-- Main Content Container -->
+  <main id="main-content" class="app-container" role="main">
+
+    <!-- ==================== PANELS: FAN EXPERIENCE COMPANION ==================== -->
+    <section id="panel-fan" class="view-panel active" role="tabpanel" aria-labelledby="btn-view-fan">
+      
+      <!-- Left side: Interactive Map & Details -->
+      <div style="display: flex; flex-direction: column; gap: 2.5rem;">
+        
+        <!-- Interactive Stadium Map Card -->
+        <article class="glass-card" id="card-map-fan">
+          <div class="card-title-group">
+            <h2 class="card-title">🏟️ MetLife Stadium Map</h2>
+            <span class="detail-label" style="color: var(--secondary)">Select sectors to view lines</span>
+          </div>
+          
+          <div class="stadium-map-wrapper" id="stadium-map-fan">
+            <!-- Stadium Map SVG dynamically rendered here -->
+          </div>
+        </article>
+        
+        <!-- Selected Sector Details Card -->
+        <article class="glass-card" id="card-sector-fan">
+          <div class="card-title-group">
+            <h2 class="card-title">🔍 Sector Operations Status</h2>
+          </div>
+          <div id="sector-detail-fan">
+            <div class="detail-label" style="text-align:center; padding: 2rem;">Select a stadium sector on the map above to view real-time parameters.</div>
+          </div>
+        </article>
+
+        <!-- Live Transit departures for Fans -->
+        <article class="glass-card">
+          <div class="card-title-group">
+            <h2 class="card-title">🚆 Transit Boarding Status</h2>
+            <span id="transit-indicator-fan" class="logo-badge" style="background: var(--success); font-size: 0.72rem;">STABLE RUNNING</span>
+          </div>
+          <div class="map-details-grid">
+            <div class="detail-item">
+              <span class="detail-label">Meadowlands Express</span>
+              <span id="transit-train-status-fan" class="detail-value" style="color: var(--success)">On Time (10m)</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Manhattan Shuttle Bus</span>
+              <span class="detail-value">On Time (8m)</span>
+            </div>
+          </div>
+        </article>
+        
+        <!-- Quick Guide Cards -->
+        <article class="glass-card" id="card-guides-fan">
+          <div class="card-title-group">
+            <h2 class="card-title">💡 Fan Quick Guides</h2>
+          </div>
+          <div class="fan-guides-grid">
+            <button class="guide-btn" data-query="Where is the nearest food stall and what is the wait time?" aria-label="Query nearest food stall details">
+              <span class="guide-btn-title">🍔 Find Concessions</span>
+              <span class="guide-btn-desc">Check wait times and food menus</span>
+            </button>
+            <button class="guide-btn" data-query="Which restrooms have the shortest queue currently?" aria-label="Query shortest restroom queue">
+              <span class="guide-btn-title">🚻 Shorter Restroom Lines</span>
+              <span class="guide-btn-desc">Locate clean, accessible toilets</span>
+            </button>
+            <button class="guide-btn" data-query="How do I travel back to Manhattan via train after the match?" aria-label="Query train transit routes to Manhattan">
+              <span class="guide-btn-title">🚆 Post-Match Transit</span>
+              <span class="guide-btn-desc">Meadowlands rail express details</span>
+            </button>
+            <button class="guide-btn" data-query="What accessibility accommodations are near Gate C?" aria-label="Query accessibility accommodations near Gate C">
+              <span class="guide-btn-title">♿ Accessibility Options</span>
+              <span class="guide-btn-desc">Ramps, elevators, and wheel chairs</span>
+            </button>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Right side: Aegis AI Assistant -->
+      <div style="display: flex; flex-direction: column; gap: 2.5rem;">
+        
+        <!-- AI Chat Interface -->
+        <article class="glass-card" style="flex-grow: 1;">
+          <div class="card-title-group">
+            <h2 class="card-title">🤖 Aegis AI Assistant</h2>
+            <div class="chat-status" aria-live="polite">
+              <span class="status-dot" id="api-status-dot-fan"></span>
+              <span class="chat-status-text" id="api-status-text-fan">Aegis Local Simulation</span>
+            </div>
+          </div>
+          
+          <div class="chat-container">
+            <div class="chat-header">
+              <span class="detail-label">Real-time Fan Support Channel</span>
+              <div class="lang-selector-box">
+                <span class="detail-label">Lang:</span>
+                <select class="lang-select" aria-label="Choose translation language">
+                  <option value="en">English (US)</option>
+                  <option value="es">Español</option>
+                  <option value="fr">Français</option>
+                  <option value="de">Deutsch</option>
+                  <option value="pt">Português</option>
+                  <option value="ar">العربية</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="chat-messages" id="chat-messages-fan" aria-live="log">
+              <!-- Chat logs populated dynamically -->
+            </div>
+            
+            <div class="chat-input-area">
+              <button id="btn-voice-fan" class="btn-voice" title="Speak command" aria-label="Voice input chat button">🎙️</button>
+              <input type="text" id="txt-input-fan" class="chat-input" placeholder="Ask about restrooms, transport, food, gates..." aria-label="Chat query input for Fan Assistant">
+              <button id="btn-send-fan" class="btn-send" aria-label="Send message button">
+                Send ⚡
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Access & Personalization Settings -->
+        <article class="glass-card">
+          <div class="card-title-group">
+            <h2 class="card-title">⚙️ Personalization & System Keys</h2>
+          </div>
+          <div class="settings-panel">
+            <div class="control-group">
+              <label for="txt-api-key" class="control-label">Gemini API Connection Key</label>
+              <div class="api-key-input-box">
+                <input type="password" id="txt-api-key" class="chat-input" placeholder="Paste your Google AI Studio API Key..." aria-label="Gemini API Key input field">
+                <button id="btn-save-key" class="btn-save-key">Link Key</button>
+              </div>
+              <span class="detail-label" style="font-size: 0.75rem; margin-top: 2px; color: var(--accent);">
+                🔑 Key is stored locally in your browser cache and never sent to external servers.
+              </span>
+            </div>
+            
+            <hr style="border: 0; border-top: 1px solid var(--border-glass);" />
+            
+            <div class="accessibility-settings">
+              <div class="access-opt">
+                <div class="access-opt-info">
+                  <span class="access-opt-title">High Contrast UI</span>
+                  <span class="access-opt-desc">Optimize for outdoor daylight view</span>
+                </div>
+                <label class="switch-container">
+                  <input type="checkbox" id="chk-high-contrast" aria-label="Toggle High Contrast Mode">
+                  <span class="slider-switch"></span>
+                </label>
+              </div>
+              
+              <div class="access-opt">
+                <div class="access-opt-info">
+                  <span class="access-opt-title">Scalable Font size</span>
+                  <span class="access-opt-desc">Large text for vision accessibility</span>
+                </div>
+                <label class="switch-container">
+                  <input type="checkbox" id="chk-large-text" aria-label="Toggle Large Font Size Mode">
+                  <span class="slider-switch"></span>
+                </label>
+              </div>
+
+              <div class="access-opt" style="grid-column: span 2;">
+                <div class="access-opt-info">
+                  <span class="access-opt-title">Visual A11y Speech Logging HUD</span>
+                  <span class="access-opt-desc">Display text feedback for screen-reader vocalizations</span>
+                </div>
+                <label class="switch-container">
+                  <input type="checkbox" id="chk-a11y-hud" aria-label="Toggle Accessibility Speech Log HUD">
+                  <span class="slider-switch"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+    </section>
+
+    <!-- ==================== PANELS: STADIUM OPERATIONS COMMAND ==================== -->
+    <section id="panel-staff" class="view-panel" role="tabpanel" aria-labelledby="btn-view-staff">
+      
+      <!-- Left Column: Operations Map, Sector Details, & Dispatch Controls -->
+      <div style="display: flex; flex-direction: column; gap: 2.5rem;">
+        
+        <!-- Operations Stadium map -->
+        <article class="glass-card" id="card-map-staff">
+          <div class="card-title-group">
+            <h2 class="card-title">📡 Live Infrastructure Map</h2>
+            <span class="logo-badge" style="background: var(--secondary); color: var(--bg-darker)">LIVE STREAM</span>
+          </div>
+          
+          <div class="stadium-map-wrapper" id="stadium-map-staff">
+            <!-- Stadium Map SVG dynamically rendered here -->
+          </div>
+        </article>
+
+        <!-- Dynamic Operations HUD Panel (Sci-Fi Visuals) -->
+        <article class="glass-card">
+          <div class="card-title-group">
+            <h2 class="card-title">📊 Live Operations HUD</h2>
+            <span class="detail-label" style="color: var(--accent-pink)">STADIUM STATS</span>
+          </div>
+          <div class="metrics-row">
+            <div class="metric-card">
+              <span class="metric-value">78,410</span>
+              <div class="metric-title">Live Gate Count</div>
+            </div>
+            <div class="metric-card">
+              <span id="lbl-safety-val" class="metric-value" style="color: var(--success)">94%</span>
+              <div class="metric-title">Safety Rating</div>
+            </div>
+            <div class="metric-card">
+              <span id="lbl-dispatch-count" class="metric-value" style="color: var(--accent)">1 / 4</span>
+              <div class="metric-title">Stewards Out</div>
+            </div>
+            <div class="metric-card">
+              <span id="lbl-grid-val" class="metric-value" style="color: var(--secondary)">98.8%</span>
+              <div class="metric-title">Grid Stability</div>
+            </div>
+          </div>
+          <!-- Animated CSS loading meter representing aggregate stadium queue times -->
+          <div class="control-group" style="margin-top: 0.5rem;">
+            <div class="control-label">
+              <span>Overall Crowd Queue Load</span>
+              <span id="lbl-queue-val" style="color: var(--warning)">MODERATE (42%)</span>
+            </div>
+            <div style="background: hsla(230, 20%, 15%, 0.9); height: 10px; border-radius: 5px; overflow: hidden; border: 1px solid var(--border-glass);">
+              <div id="bar-queue-load" style="width: 42%; background: linear-gradient(90deg, var(--success), var(--warning)); height: 100%; animation: load-bar-flow 3s infinite linear; background-size: 30px 30px; transition: width 0.5s ease-out;"></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Live Transit Departures Status & Simulator -->
+        <article class="glass-card">
+          <div class="card-title-group">
+            <h2 class="card-title">🚆 Transit Infrastructure HUD</h2>
+            <span id="transit-indicator-staff" class="logo-badge" style="background: var(--success); font-size: 0.72rem;">STABLE RUNNING</span>
+          </div>
+          <div class="map-details-grid">
+            <div class="detail-item">
+              <span class="detail-label">Meadowlands Express Train</span>
+              <span id="transit-train-status-staff" class="detail-value" style="color: var(--success)">On Time (10m)</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Manhattan Shuttle Buses</span>
+              <span class="detail-value">On Time (8m)</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 10px; margin-top: 0.5rem;">
+            <button id="btn-simulate-transit-delay" class="btn-dispatch-action" style="border-color: var(--danger); color: var(--danger); flex-grow: 1;">
+              🚨 Simulate Transit Delay (Gridlock)
+            </button>
+            <button id="btn-restore-transit" class="btn-dispatch-action" style="border-color: var(--success); color: var(--success); display: none; flex-grow: 1;">
+              ✅ Restore Transit Operations
+            </button>
+          </div>
+        </article>
+        
+        <!-- Sector detail (Operations View) -->
+        <article class="glass-card" id="card-sector-staff">
+          <div class="card-title-group">
+            <h2 class="card-title">📋 Sector Parameters & Dispatch</h2>
+          </div>
+          
+          <!-- State information populated dynamically -->
+          <div id="sector-detail-staff">
+            <div class="detail-label" style="text-align:center; padding: 2rem;">Select a stadium sector on the map above to view real-time parameters.</div>
+          </div>
+
+          <!-- Dispatch Stewards Interface -->
+          <div class="control-group" style="border-top: 1px solid var(--border-glass); padding-top: 1.5rem;">
+            <label for="select-personnel" class="control-label">Dispatch Available Staff to Selected Sector</label>
+            <div class="api-key-input-box">
+              <select id="select-personnel" class="chat-input" aria-label="Select staff member to dispatch">
+                <!-- Populated dynamically -->
+              </select>
+              <button id="btn-assign-personnel" class="btn-save-key" style="background: var(--secondary); color: var(--bg-darker)">Dispatch 👮</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Personnel Standby Status -->
+        <article class="glass-card">
+          <div class="card-title-group">
+            <h2 class="card-title">👮 Mobile Stewards & Volunteers</h2>
+          </div>
+          <div class="dispatch-list" id="dispatch-list-container" role="list">
+            <!-- Personnel rows populated dynamically -->
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Right Column: Operations Alerts, Sustainability optimization, & AI Command Chat -->
+      <div style="display: flex; flex-direction: column; gap: 2.5rem;">
+        
+        <!-- Active Infrastructure Alerts -->
+        <article class="glass-card" id="card-alerts-staff">
+          <div class="card-title-group">
+            <h2 class="card-title">⚠️ Active Incidents Queue</h2>
+          </div>
+          <div class="alerts-list" id="alerts-feed-list" role="log">
+            <!-- Incidents populated dynamically -->
+          </div>
+        </article>
+
+        <!-- Sustainability Command & Savings -->
+        <article class="glass-card">
+          <div class="card-title-group">
+            <h2 class="card-title">🌱 Sustainability Optimization</h2>
+            <div class="metric-card" style="padding: 4px 12px; min-width: 110px;">
+              <span id="lbl-sustainability-savings" class="metric-value">4,850 kWh/hr</span>
+              <div class="metric-title" style="font-size:0.65rem;">Eco Savings</div>
+            </div>
+          </div>
+          
+          <div class="optimization-toggle-box">
+            <div class="toggle-details">
+              <span class="toggle-title">AI Eco-Optimization Mode</span>
+              <span class="toggle-desc">Automatically adjusts HVAC, Water, and LEDs to reduce footprint</span>
+            </div>
+            <label class="switch-container">
+              <input type="checkbox" id="toggle-sustainability-opt" aria-label="Toggle Sustainability Optimization Mode">
+              <span class="slider-switch"></span>
+            </label>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">
+              <span>HVAC Climate Output</span>
+              <span id="lbl-hvac-val" style="font-weight: 800;">75%</span>
+            </span>
+            <input type="range" id="slider-hvac" class="control-slider" min="30" max="100" value="75" aria-label="HVAC output controller">
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">
+              <span>Recycled Greywater Grid Efficiency</span>
+              <span id="lbl-water-val" style="font-weight: 800;">75%</span>
+            </span>
+            <input type="range" id="slider-water" class="control-slider" min="10" max="100" value="75" aria-label="Water grid output controller">
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">
+              <span>Smart Concourse LED Lighting</span>
+              <span id="lbl-lighting-val" style="font-weight: 800;">80%</span>
+            </span>
+            <input type="range" id="slider-lighting" class="control-slider" min="20" max="100" value="80" aria-label="Smart LED lighting controller">
+          </div>
+        </article>
+
+        <!-- Operational Command AI Assistant -->
+        <article class="glass-card" style="flex-grow: 1;">
+          <div class="card-title-group">
+            <h2 class="card-title">🧠 GenAI Operations Intelligence</h2>
+            <div class="chat-status" aria-live="polite">
+              <span class="status-dot" id="api-status-dot-staff"></span>
+              <span class="chat-status-text" id="api-status-text-staff">Aegis Local Simulation</span>
+            </div>
+          </div>
+          
+          <div class="chat-container">
+            <div class="chat-header">
+              <span class="detail-label">Security, Maintenance & Logistics Drafting Channel</span>
+            </div>
+            
+            <div class="chat-messages" id="chat-messages-staff" aria-live="log">
+              <!-- Chat logs populated dynamically -->
+            </div>
+            
+            <div class="chat-input-area">
+              <button id="btn-voice-staff" class="btn-voice" title="Speak command" aria-label="Voice input command button">🎙️</button>
+              <input type="text" id="txt-input-staff" class="chat-input" placeholder="Generate incident report, draft safety protocols, optimize grids..." aria-label="Operational AI command text input">
+              <button id="btn-send-staff" class="btn-send" style="background: var(--primary); color: #fff;" aria-label="Send operational command button">
+                Run Command ⚡
+              </button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Glowing Visual A11y HUD (Speech Feedback Display Log) -->
+  <section id="a11y-speech-hud" class="glass-card" style="position: fixed; bottom: 20px; right: 20px; left: auto; width: 360px; padding: 1.25rem; border-color: var(--secondary); z-index: 1000; box-shadow: 0 10px 45px rgba(0,0,0,0.85); display: none; gap: 8px; border-width: 2px;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <span class="detail-label" style="color: var(--secondary); font-weight:900; font-size:0.75rem;">🗣️ Visual Accessibility Speech HUD</span>
+      <button id="btn-close-a11y-hud" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; font-size:0.9rem;" aria-label="Close Accessibility Speech HUD">✕</button>
+    </div>
+    <p id="a11y-speech-text" style="font-size:0.88rem; color:var(--text-primary); line-height:1.45; font-style: italic;">[Awaiting vocalized speech outputs...]</p>
+  </section>
+
+  <footer style="text-align: center; padding: 2.5rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border-glass);" role="contentinfo">
+    Aegis FIFA 2026 Dashboard &copy; 2026. Built with Google Antigravity Agent. Public domain open source.
+  </footer>
+
+  <!-- Styles animations keyframe -->
+  <style>
+    @keyframes load-bar-flow {
+      0% { background-position: 0 0; }
+      100% { background-position: 30px 0; }
+    }
+  </style>
+
+  <!-- Scripts -->
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>
