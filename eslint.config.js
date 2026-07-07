@@ -1,6 +1,6 @@
 export default [
   {
-    files: ["src/**/*.js"],
+    files: ["src/**/*.js", "tests/**/*.js"],
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",
@@ -10,7 +10,9 @@ export default [
         localStorage: "readonly",
         fetch: "readonly",
         alert: "readonly",
-        SpeechSynthesisUtterance: "readonly"
+        SpeechSynthesisUtterance: "readonly",
+        global: "writable",
+        setTimeout: "readonly"
       }
     },
     rules: {
