@@ -41,13 +41,13 @@
     <section id="panel-fan" class="view-panel active" role="tabpanel" aria-labelledby="btn-view-fan">
       
       <!-- Left side: Interactive Map & Details -->
-      <div style="display: flex; flex-direction: column; gap: 2.5rem;">
+      <div class="display-col">
         
         <!-- Interactive Stadium Map Card -->
         <article class="glass-card" id="card-map-fan">
           <div class="card-title-group">
             <h2 class="card-title">🏟️ MetLife Stadium Map</h2>
-            <span class="detail-label" style="color: var(--secondary)">Select sectors to view lines</span>
+            <span class="detail-label txt-secondary">Select sectors to view lines</span>
           </div>
           
           <div class="stadium-map-wrapper" id="stadium-map-fan">
@@ -61,7 +61,7 @@
             <h2 class="card-title">🔍 Sector Operations Status</h2>
           </div>
           <div id="sector-detail-fan">
-            <div class="detail-label" style="text-align:center; padding: 2rem;">Select a stadium sector on the map above to view real-time parameters.</div>
+            <div class="detail-label text-center-padding">Select a stadium sector on the map above to view real-time parameters.</div>
           </div>
         </article>
 
@@ -69,12 +69,12 @@
         <article class="glass-card">
           <div class="card-title-group">
             <h2 class="card-title">🚆 Transit Boarding Status</h2>
-            <span id="transit-indicator-fan" class="logo-badge" style="background: var(--success); font-size: 0.72rem;">STABLE RUNNING</span>
+            <span id="transit-indicator-fan" class="logo-badge badge-success-sm">STABLE RUNNING</span>
           </div>
           <div class="map-details-grid">
             <div class="detail-item">
               <span class="detail-label">Meadowlands Express</span>
-              <span id="transit-train-status-fan" class="detail-value" style="color: var(--success)">On Time (10m)</span>
+              <span id="transit-train-status-fan" class="detail-value txt-success">On Time (10m)</span>
             </div>
             <div class="detail-item">
               <span class="detail-label">Manhattan Shuttle Bus</span>
@@ -111,10 +111,10 @@
       </div>
 
       <!-- Right side: Aegis AI Assistant -->
-      <div style="display: flex; flex-direction: column; gap: 2.5rem;">
+      <div class="display-col">
         
         <!-- AI Chat Interface -->
-        <article class="glass-card" style="flex-grow: 1;">
+        <article class="glass-card flex-grow-1">
           <div class="card-title-group">
             <h2 class="card-title">🤖 Aegis AI Assistant</h2>
             <div class="chat-status" aria-live="polite">
@@ -165,12 +165,12 @@
                 <input type="password" id="txt-api-key" class="chat-input" placeholder="Paste your Google AI Studio API Key..." aria-label="Gemini API Key input field">
                 <button id="btn-save-key" class="btn-save-key">Link Key</button>
               </div>
-              <span class="detail-label" style="font-size: 0.75rem; margin-top: 2px; color: var(--accent);">
+              <span class="detail-label txt-accent-sm">
                 🔑 Key is stored locally in your browser cache and never sent to external servers.
               </span>
             </div>
             
-            <hr style="border: 0; border-top: 1px solid var(--border-glass);" />
+            <hr class="divider-glass" />
             
             <div class="accessibility-settings">
               <div class="access-opt">
@@ -195,7 +195,7 @@
                 </label>
               </div>
 
-              <div class="access-opt" style="grid-column: span 2;">
+              <div class="access-opt grid-span-2">
                 <div class="access-opt-info">
                   <span class="access-opt-title">Visual A11y Speech Logging HUD</span>
                   <span class="access-opt-desc">Display text feedback for screen-reader vocalizations</span>
@@ -217,13 +217,13 @@
     <section id="panel-staff" class="view-panel" role="tabpanel" aria-labelledby="btn-view-staff">
       
       <!-- Left Column: Operations Map, Sector Details, & Dispatch Controls -->
-      <div style="display: flex; flex-direction: column; gap: 2.5rem;">
+      <div class="display-col">
         
         <!-- Operations Stadium map -->
         <article class="glass-card" id="card-map-staff">
           <div class="card-title-group">
             <h2 class="card-title">📡 Live Infrastructure Map</h2>
-            <span class="logo-badge" style="background: var(--secondary); color: var(--bg-darker)">LIVE STREAM</span>
+            <span class="logo-badge badge-secondary-dark">LIVE STREAM</span>
           </div>
           
           <div class="stadium-map-wrapper" id="stadium-map-staff">
@@ -235,7 +235,7 @@
         <article class="glass-card">
           <div class="card-title-group">
             <h2 class="card-title">📊 Live Operations HUD</h2>
-            <span class="detail-label" style="color: var(--accent-pink)">STADIUM STATS</span>
+            <span class="detail-label txt-pink">STADIUM STATS</span>
           </div>
           <div class="metrics-row">
             <div class="metric-card">
@@ -243,26 +243,26 @@
               <div class="metric-title">Live Gate Count</div>
             </div>
             <div class="metric-card">
-              <span id="lbl-safety-val" class="metric-value" style="color: var(--success)">94%</span>
+              <span id="lbl-safety-val" class="metric-value txt-success">94%</span>
               <div class="metric-title">Safety Rating</div>
             </div>
             <div class="metric-card">
-              <span id="lbl-dispatch-count" class="metric-value" style="color: var(--accent)">1 / 4</span>
+              <span id="lbl-dispatch-count" class="metric-value txt-accent">1 / 4</span>
               <div class="metric-title">Stewards Out</div>
             </div>
             <div class="metric-card">
-              <span id="lbl-grid-val" class="metric-value" style="color: var(--secondary)">98.8%</span>
+              <span id="lbl-grid-val" class="metric-value txt-secondary">98.8%</span>
               <div class="metric-title">Grid Stability</div>
             </div>
           </div>
           <!-- Animated CSS loading meter representing aggregate stadium queue times -->
-          <div class="control-group" style="margin-top: 0.5rem;">
+          <div class="control-group margin-top-sm">
             <div class="control-label">
               <span>Overall Crowd Queue Load</span>
               <span id="lbl-queue-val" style="color: var(--warning)">MODERATE (42%)</span>
             </div>
-            <div style="background: hsla(230, 20%, 15%, 0.9); height: 10px; border-radius: 5px; overflow: hidden; border: 1px solid var(--border-glass);">
-              <div id="bar-queue-load" style="width: 42%; background: linear-gradient(90deg, var(--success), var(--warning)); height: 100%; animation: load-bar-flow 3s infinite linear; background-size: 30px 30px; transition: width 0.5s ease-out;"></div>
+            <div class="queue-bar-track">
+              <div id="bar-queue-load" class="queue-bar-fill"></div>
             </div>
           </div>
         </article>
@@ -271,23 +271,23 @@
         <article class="glass-card">
           <div class="card-title-group">
             <h2 class="card-title">🚆 Transit Infrastructure HUD</h2>
-            <span id="transit-indicator-staff" class="logo-badge" style="background: var(--success); font-size: 0.72rem;">STABLE RUNNING</span>
+            <span id="transit-indicator-staff" class="logo-badge badge-success-sm">STABLE RUNNING</span>
           </div>
           <div class="map-details-grid">
             <div class="detail-item">
               <span class="detail-label">Meadowlands Express Train</span>
-              <span id="transit-train-status-staff" class="detail-value" style="color: var(--success)">On Time (10m)</span>
+              <span id="transit-train-status-staff" class="detail-value txt-success">On Time (10m)</span>
             </div>
             <div class="detail-item">
               <span class="detail-label">Manhattan Shuttle Buses</span>
               <span class="detail-value">On Time (8m)</span>
             </div>
           </div>
-          <div style="display: flex; gap: 10px; margin-top: 0.5rem;">
-            <button id="btn-simulate-transit-delay" class="btn-dispatch-action" style="border-color: var(--danger); color: var(--danger); flex-grow: 1;">
+          <div class="flex-row-gap">
+            <button id="btn-simulate-transit-delay" class="btn-dispatch-action btn-transit-simulate">
               🚨 Simulate Transit Delay (Gridlock)
             </button>
-            <button id="btn-restore-transit" class="btn-dispatch-action" style="border-color: var(--success); color: var(--success); display: none; flex-grow: 1;">
+            <button id="btn-restore-transit" class="btn-dispatch-action btn-transit-restore">
               ✅ Restore Transit Operations
             </button>
           </div>
@@ -301,17 +301,17 @@
           
           <!-- State information populated dynamically -->
           <div id="sector-detail-staff">
-            <div class="detail-label" style="text-align:center; padding: 2rem;">Select a stadium sector on the map above to view real-time parameters.</div>
+            <div class="detail-label text-center-padding">Select a stadium sector on the map above to view real-time parameters.</div>
           </div>
 
           <!-- Dispatch Stewards Interface -->
-          <div class="control-group" style="border-top: 1px solid var(--border-glass); padding-top: 1.5rem;">
+          <div class="control-group border-top-padding">
             <label for="select-personnel" class="control-label">Dispatch Available Staff to Selected Sector</label>
             <div class="api-key-input-box">
               <select id="select-personnel" class="chat-input" aria-label="Select staff member to dispatch">
                 <!-- Populated dynamically -->
               </select>
-              <button id="btn-assign-personnel" class="btn-save-key" style="background: var(--secondary); color: var(--bg-darker)">Dispatch 👮</button>
+              <button id="btn-assign-personnel" class="btn-save-key btn-secondary-dark-stew">Dispatch 👮</button>
             </div>
           </div>
         </article>
@@ -329,7 +329,7 @@
       </div>
 
       <!-- Right Column: Operations Alerts, Sustainability optimization, & AI Command Chat -->
-      <div style="display: flex; flex-direction: column; gap: 2.5rem;">
+      <div class="display-col">
         
         <!-- Active Infrastructure Alerts -->
         <article class="glass-card" id="card-alerts-staff">
@@ -345,9 +345,9 @@
         <article class="glass-card">
           <div class="card-title-group">
             <h2 class="card-title">🌱 Sustainability Optimization</h2>
-            <div class="metric-card" style="padding: 4px 12px; min-width: 110px;">
+            <div class="metric-card sustainability-savings-card">
               <span id="lbl-sustainability-savings" class="metric-value">4,850 kWh/hr</span>
-              <div class="metric-title" style="font-size:0.65rem;">Eco Savings</div>
+              <div class="metric-title sustainability-savings-title">Eco Savings</div>
             </div>
           </div>
           
@@ -365,7 +365,7 @@
           <div class="control-group">
             <span class="control-label">
               <span>HVAC Climate Output</span>
-              <span id="lbl-hvac-val" style="font-weight: 800;">75%</span>
+              <span id="lbl-hvac-val" class="font-weight-800">75%</span>
             </span>
             <input type="range" id="slider-hvac" class="control-slider" min="30" max="100" value="75" aria-label="HVAC output controller">
           </div>
@@ -373,7 +373,7 @@
           <div class="control-group">
             <span class="control-label">
               <span>Recycled Greywater Grid Efficiency</span>
-              <span id="lbl-water-val" style="font-weight: 800;">75%</span>
+              <span id="lbl-water-val" class="font-weight-800">75%</span>
             </span>
             <input type="range" id="slider-water" class="control-slider" min="10" max="100" value="75" aria-label="Water grid output controller">
           </div>
@@ -381,14 +381,14 @@
           <div class="control-group">
             <span class="control-label">
               <span>Smart Concourse LED Lighting</span>
-              <span id="lbl-lighting-val" style="font-weight: 800;">80%</span>
+              <span id="lbl-lighting-val" class="font-weight-800">80%</span>
             </span>
             <input type="range" id="slider-lighting" class="control-slider" min="20" max="100" value="80" aria-label="Smart LED lighting controller">
           </div>
         </article>
 
         <!-- Operational Command AI Assistant -->
-        <article class="glass-card" style="flex-grow: 1;">
+        <article class="glass-card flex-grow-1">
           <div class="card-title-group">
             <h2 class="card-title">🧠 GenAI Operations Intelligence</h2>
             <div class="chat-status" aria-live="polite">
@@ -409,7 +409,7 @@
             <div class="chat-input-area">
               <button id="btn-voice-staff" class="btn-voice" title="Speak command" aria-label="Voice input command button">🎙️</button>
               <input type="text" id="txt-input-staff" class="chat-input" placeholder="Generate incident report, draft safety protocols, optimize grids..." aria-label="Operational AI command text input">
-              <button id="btn-send-staff" class="btn-send" style="background: var(--primary); color: #fff;" aria-label="Send operational command button">
+              <button id="btn-send-staff" class="btn-send btn-primary-send" aria-label="Send operational command button">
                 Run Command ⚡
               </button>
             </div>
@@ -423,15 +423,15 @@
   </main>
 
   <!-- Glowing Visual A11y HUD (Speech Feedback Display Log) -->
-  <section id="a11y-speech-hud" class="glass-card" style="position: fixed; bottom: 20px; right: 20px; left: auto; width: 360px; padding: 1.25rem; border-color: var(--secondary); z-index: 1000; box-shadow: 0 10px 45px rgba(0,0,0,0.85); display: none; gap: 8px; border-width: 2px;">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-      <span class="detail-label" style="color: var(--secondary); font-weight:900; font-size:0.75rem;">🗣️ Visual Accessibility Speech HUD</span>
-      <button id="btn-close-a11y-hud" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; font-size:0.9rem;" aria-label="Close Accessibility Speech HUD">✕</button>
+  <section id="a11y-speech-hud" class="glass-card speech-hud-container">
+    <div class="speech-hud-header">
+      <span class="detail-label speech-hud-title">🗣️ Visual Accessibility Speech HUD</span>
+      <button id="btn-close-a11y-hud" class="speech-hud-close" aria-label="Close Accessibility Speech HUD">✕</button>
     </div>
-    <p id="a11y-speech-text" style="font-size:0.88rem; color:var(--text-primary); line-height:1.45; font-style: italic;">[Awaiting vocalized speech outputs...]</p>
+    <p id="a11y-speech-text" class="speech-hud-text">[Awaiting vocalized speech outputs...]</p>
   </section>
 
-  <footer style="text-align: center; padding: 2.5rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border-glass);" role="contentinfo">
+  <footer class="footer-text" role="contentinfo">
     Aegis FIFA 2026 Dashboard &copy; 2026. Built with Google Antigravity Agent. Public domain open source.
   </footer>
 
