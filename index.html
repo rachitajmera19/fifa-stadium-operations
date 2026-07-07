@@ -33,10 +33,10 @@
       <!-- Toggle between Fan Experience and Organizer Command Center -->
       <nav class="view-switcher" aria-label="Application Interface Mode Switcher" role="tablist">
         <button id="btn-view-fan" class="btn-switch active" aria-controls="panel-fan" aria-selected="true" role="tab">
-          👤 Fan Companion
+          <span role="img" aria-hidden="true">👤</span> Fan Companion
         </button>
         <button id="btn-view-staff" class="btn-switch" aria-controls="panel-staff" aria-selected="false" role="tab">
-          ⚙️ Operations Command
+          <span role="img" aria-hidden="true">⚙️</span> Operations Command
         </button>
       </nav>
     </div>
@@ -67,7 +67,7 @@
         <!-- Interactive Stadium Map Card -->
         <article class="glass-card" id="card-map-fan">
           <div class="card-title-group">
-            <h2 class="card-title">🏟️ MetLife Stadium Map</h2>
+            <h2 class="card-title"><span role="img" aria-hidden="true">🏟️</span> MetLife Stadium Map</h2>
             <span class="detail-label txt-secondary">Select sectors to view lines</span>
           </div>
           
@@ -79,7 +79,7 @@
         <!-- Selected Sector Details Card -->
         <article class="glass-card" id="card-sector-fan">
           <div class="card-title-group">
-            <h2 class="card-title">🔍 Sector Operations Status</h2>
+            <h2 class="card-title"><span role="img" aria-hidden="true">🔍</span> Sector Operations Status</h2>
           </div>
           <div id="sector-detail-fan">
             <div class="detail-label text-center-padding">Select a stadium sector on the map above to view real-time parameters.</div>
@@ -89,7 +89,7 @@
         <!-- Live Transit departures for Fans -->
         <article class="glass-card">
           <div class="card-title-group">
-            <h2 class="card-title">🚆 Transit Boarding Status</h2>
+            <h2 class="card-title"><span role="img" aria-hidden="true">🚆</span> Transit Boarding Status</h2>
             <span id="transit-indicator-fan" class="logo-badge badge-success-sm">STABLE RUNNING</span>
           </div>
           <div class="map-details-grid">
@@ -107,23 +107,23 @@
         <!-- Quick Guide Cards -->
         <article class="glass-card" id="card-guides-fan">
           <div class="card-title-group">
-            <h2 class="card-title">💡 Fan Quick Guides</h2>
+            <h2 class="card-title"><span role="img" aria-hidden="true">💡</span> Fan Quick Guides</h2>
           </div>
           <div class="fan-guides-grid">
             <button class="guide-btn" data-query="Where is the nearest food stall and what is the wait time?" aria-label="Query nearest food stall details">
-              <span class="guide-btn-title">🍔 Find Concessions</span>
+              <span class="guide-btn-title"><span role="img" aria-hidden="true">🍔</span> Find Concessions</span>
               <span class="guide-btn-desc">Check wait times and food menus</span>
             </button>
             <button class="guide-btn" data-query="Which restrooms have the shortest queue currently?" aria-label="Query shortest restroom queue">
-              <span class="guide-btn-title">🚻 Shorter Restroom Lines</span>
+              <span class="guide-btn-title"><span role="img" aria-hidden="true">🚻</span> Shorter Restroom Lines</span>
               <span class="guide-btn-desc">Locate clean, accessible toilets</span>
             </button>
             <button class="guide-btn" data-query="How do I travel back to Manhattan via train after the match?" aria-label="Query train transit routes to Manhattan">
-              <span class="guide-btn-title">🚆 Post-Match Transit</span>
+              <span class="guide-btn-title"><span role="img" aria-hidden="true">🚆</span> Post-Match Transit</span>
               <span class="guide-btn-desc">Meadowlands rail express details</span>
             </button>
             <button class="guide-btn" data-query="What accessibility accommodations are near Gate C?" aria-label="Query accessibility accommodations near Gate C">
-              <span class="guide-btn-title">♿ Accessibility Options</span>
+              <span class="guide-btn-title"><span role="img" aria-hidden="true">♿</span> Accessibility Options</span>
               <span class="guide-btn-desc">Ramps, elevators, and wheel chairs</span>
             </button>
           </div>
@@ -137,7 +137,7 @@
         <!-- AI Chat Interface -->
         <article class="glass-card flex-grow-1">
           <div class="card-title-group">
-            <h2 class="card-title">🤖 Aegis AI Assistant</h2>
+            <h2 class="card-title"><span role="img" aria-hidden="true">🤖</span> Aegis AI Assistant</h2>
             <div class="chat-status" aria-live="polite">
               <span class="status-dot" id="api-status-dot-fan"></span>
               <span class="chat-status-text" id="api-status-text-fan">Aegis Local Simulation</span>
@@ -177,7 +177,7 @@
         <!-- Access & Personalization Settings -->
         <article class="glass-card">
           <div class="card-title-group">
-            <h2 class="card-title">⚙️ Personalization & System Keys</h2>
+            <h2 class="card-title"><span role="img" aria-hidden="true">⚙️</span> Personalization & System Keys</h2>
           </div>
           <div class="settings-panel">
             <div class="control-group">
@@ -187,7 +187,7 @@
                 <button id="btn-save-key" class="btn-save-key">Link Key</button>
               </div>
               <span class="detail-label txt-accent-sm">
-                🔑 Key is stored locally in your browser cache and never sent to external servers.
+                <span role="img" aria-hidden="true">🔑</span> Key is stored locally in your browser cache and never sent to external servers.
               </span>
             </div>
             
@@ -243,7 +243,7 @@
         <!-- Operations Stadium map -->
         <article class="glass-card" id="card-map-staff">
           <div class="card-title-group">
-            <h2 class="card-title">📡 Live Infrastructure Map</h2>
+            <h2 class="card-title"><span role="img" aria-hidden="true">📡</span> Live Infrastructure Map</h2>
             <span class="logo-badge badge-secondary-dark">LIVE STREAM</span>
           </div>
           
@@ -255,7 +255,7 @@
         <!-- Dynamic Operations HUD Panel (Sci-Fi Visuals) -->
         <article class="glass-card">
           <div class="card-title-group">
-            <h2 class="card-title">📊 Live Operations HUD</h2>
+            <h2 class="card-title"><span role="img" aria-hidden="true">📊</span> Live Operations HUD</h2>
             <span class="detail-label txt-pink">STADIUM STATS</span>
           </div>
           <div class="metrics-row">
@@ -291,7 +291,7 @@
         <!-- Live Transit Departures Status & Simulator -->
         <article class="glass-card">
           <div class="card-title-group">
-            <h2 class="card-title">🚆 Transit Infrastructure HUD</h2>
+            <h2 class="card-title"><span role="img" aria-hidden="true">🚆</span> Transit Infrastructure HUD</h2>
             <span id="transit-indicator-staff" class="logo-badge badge-success-sm">STABLE RUNNING</span>
           </div>
           <div class="map-details-grid">
@@ -306,10 +306,10 @@
           </div>
           <div class="flex-row-gap">
             <button id="btn-simulate-transit-delay" class="btn-dispatch-action btn-transit-simulate">
-              🚨 Simulate Transit Delay (Gridlock)
+              <span role="img" aria-hidden="true">🚨</span> Simulate Transit Delay (Gridlock)
             </button>
             <button id="btn-restore-transit" class="btn-dispatch-action btn-transit-restore">
-              ✅ Restore Transit Operations
+              <span role="img" aria-hidden="true">✅</span> Restore Transit Operations
             </button>
           </div>
         </article>
@@ -317,7 +317,7 @@
         <!-- Sector detail (Operations View) -->
         <article class="glass-card" id="card-sector-staff">
           <div class="card-title-group">
-            <h2 class="card-title">📋 Sector Parameters & Dispatch</h2>
+            <h2 class="card-title"><span role="img" aria-hidden="true">📋</span> Sector Parameters & Dispatch</h2>
           </div>
           
           <!-- State information populated dynamically -->
@@ -332,7 +332,7 @@
               <select id="select-personnel" class="chat-input" aria-label="Select staff member to dispatch">
                 <!-- Populated dynamically -->
               </select>
-              <button id="btn-assign-personnel" class="btn-save-key btn-secondary-dark-stew">Dispatch 👮</button>
+              <button id="btn-assign-personnel" class="btn-save-key btn-secondary-dark-stew">Dispatch <span role="img" aria-hidden="true">👮</span></button>
             </div>
           </div>
         </article>
@@ -340,7 +340,7 @@
         <!-- Personnel Standby Status -->
         <article class="glass-card">
           <div class="card-title-group">
-            <h2 class="card-title">👮 Mobile Stewards & Volunteers</h2>
+            <h2 class="card-title"><span role="img" aria-hidden="true">👮</span> Mobile Stewards & Volunteers</h2>
           </div>
           <div class="dispatch-list" id="dispatch-list-container" role="list">
             <!-- Personnel rows populated dynamically -->
@@ -355,7 +355,7 @@
         <!-- Active Infrastructure Alerts -->
         <article class="glass-card" id="card-alerts-staff">
           <div class="card-title-group">
-            <h2 class="card-title">⚠️ Active Incidents Queue</h2>
+            <h2 class="card-title"><span role="img" aria-hidden="true">⚠️</span> Active Incidents Queue</h2>
           </div>
           <div class="alerts-list" id="alerts-feed-list" role="log">
             <!-- Incidents populated dynamically -->
@@ -365,7 +365,7 @@
         <!-- Sustainability Command & Savings -->
         <article class="glass-card">
           <div class="card-title-group">
-            <h2 class="card-title">🌱 Sustainability Optimization</h2>
+            <h2 class="card-title"><span role="img" aria-hidden="true">🌱</span> Sustainability Optimization</h2>
             <div class="metric-card sustainability-savings-card">
               <span id="lbl-sustainability-savings" class="metric-value">4,850 kWh/hr</span>
               <div class="metric-title sustainability-savings-title">Eco Savings</div>
@@ -411,7 +411,7 @@
         <!-- Operational Command AI Assistant -->
         <article class="glass-card flex-grow-1">
           <div class="card-title-group">
-            <h2 class="card-title">🧠 GenAI Operations Intelligence</h2>
+            <h2 class="card-title"><span role="img" aria-hidden="true">🧠</span> GenAI Operations Intelligence</h2>
             <div class="chat-status" aria-live="polite">
               <span class="status-dot" id="api-status-dot-staff"></span>
               <span class="chat-status-text" id="api-status-text-staff">Aegis Local Simulation</span>
@@ -446,7 +446,7 @@
   <!-- Glowing Visual A11y HUD (Speech Feedback Display Log) -->
   <section id="a11y-speech-hud" class="glass-card speech-hud-container">
     <div class="speech-hud-header">
-      <span class="detail-label speech-hud-title">🗣️ Visual Accessibility Speech HUD</span>
+      <span class="detail-label speech-hud-title"><span role="img" aria-hidden="true">🗣️</span> Visual Accessibility Speech HUD</span>
       <button id="btn-close-a11y-hud" class="speech-hud-close" aria-label="Close Accessibility Speech HUD">✕</button>
     </div>
     <p id="a11y-speech-text" class="speech-hud-text">[Awaiting vocalized speech outputs...]</p>
