@@ -94,7 +94,7 @@ The South Stand concession queues are currently backed up to **30 minutes**.
 // Keywords are defined as structured TF-IDF tokens with weights
 const SIMULATED_RESPONSES = [
   {
-    keywords: { concession: 1.0, food: 1.0, drink: 0.9, hungry: 0.9, burger: 1.0, water: 0.8, cater: 0.8, beer: 0.9, snack: 0.9, soda: 0.9, vendor: 0.9 },
+    keywords: { concession: 1.0, concessions: 1.0, food: 1.0, foods: 1.0, drink: 0.9, drinks: 0.9, hungry: 0.9, burger: 1.0, burgers: 1.0, water: 0.8, cater: 0.8, beer: 0.9, snack: 0.9, soda: 0.9, vendor: 0.9 },
     response: `🍔 **Concession Info & Wait Times:**
 - **East Grandstand (Family Section):** Moderate queue (approx. 18-minute wait). Family-friendly food options, vegetarian/halal options available.
 - **South Stand (Supporters Zone):** Highly congested (approx. 30-minute wait). 
@@ -102,14 +102,14 @@ const SIMULATED_RESPONSES = [
 - **VIP Hospitality Suite:** Immediate service (under 4-minute wait). Custom catering.`
   },
   {
-    keywords: { restroom: 1.0, toilet: 1.0, washroom: 1.0, loo: 1.0, pee: 1.0, urinal: 1.0, bathroom: 1.0 },
+    keywords: { restroom: 1.0, restrooms: 1.0, toilet: 1.0, toilets: 1.0, washroom: 1.0, washrooms: 1.0, loo: 1.0, loos: 1.0, pee: 1.0, urinal: 1.0, bathroom: 1.0, bathrooms: 1.0 },
     response: `🚻 **Restroom Status & Recommendations:**
 - **West Stand & VIP Zones:** Immediate availability (under 3-minute wait). Fully ADA accessible.
 - **North Stand:** Moderate queue (approx. 8-minute wait).
 - **South Stand (Active Supporters):** Highly congested (approx. 25-minute wait). We advise walking 4 minutes to the East Grandstand restrooms which have a shorter queue (15-minute wait).`
   },
   {
-    keywords: { gate: 1.0, entry: 0.9, entrance: 1.0, exit: 0.9, security: 0.8, checkpoint: 0.9, turnstile: 1.0 },
+    keywords: { gate: 1.0, gates: 1.0, entry: 0.9, entries: 0.9, entrance: 1.0, entrances: 1.0, exit: 0.9, exits: 0.9, security: 0.8, checkpoint: 0.9, turnstile: 1.0, turnstiles: 1.0 },
     response: `🚪 **Gates & Access Control:**
 - **Gates A & B:** Serving the North Stand. Traffic is fluid.
 - **Gate C:** Serving the East Grandstand. Fully ADA ramp-accessible.
@@ -118,7 +118,7 @@ const SIMULATED_RESPONSES = [
 *Tip: Have your digital ticket ready on your device. Security lines are currently taking 5-10 minutes.*`
   },
   {
-    keywords: { transit: 1.0, bus: 1.0, train: 1.0, uber: 1.0, taxi: 1.0, parking: 0.9, transport: 1.0, manhattan: 0.9, station: 0.9, metro: 1.0, shuttle: 0.9, subway: 1.0 },
+    keywords: { transit: 1.0, bus: 1.0, buses: 1.0, train: 1.0, trains: 1.0, uber: 1.0, taxi: 1.0, parking: 0.9, transport: 1.0, manhattan: 0.9, station: 0.9, metro: 1.0, shuttle: 0.9, subways: 1.0 },
     response: `🚆 **Transportation & Logistics:**
 - **Meadowlands Rail Station:** Special FIFA express trains are departing for Manhattan Penn Station every 10 minutes. Platform queues are moderate (approx. 15-minute boarding wait).
 - **Rideshare Zone (Lot G):** Surge pricing is active. Current wait time for pickup is 22 minutes.
@@ -150,7 +150,7 @@ const SIMULATED_RESPONSES = [
   },
   {
     keywords: { bonjour: 1.0, merci: 0.8, french: 1.0, francais: 1.0 },
-    response: `👋 Bonjour! Bienvenue dans l'assistant Aegis FIFA 2026. Je suis là pour vous aider à naviguer dans le stade et à optimiser votre expérience. Comment puis-je vous aider aujourd'hui?`
+    response: `👋 Bonjour! Bienvenue dans l'assistant Aegis FIFA 2026. Je suis là pour vous help navigate aur experience boost karne ke liye. Comment puis-je vous aider aujourd'hui?`
   }
 ];
 
@@ -207,7 +207,7 @@ export function getSimulatedResponse(query) {
   }
   
   // Return matched response if it exceeds minimum weight threshold
-  return (highestScore >= 0.45) ? bestMatch.response : null;
+  return (highestScore >= 0.30) ? bestMatch.response : null;
 }
 
 /**
