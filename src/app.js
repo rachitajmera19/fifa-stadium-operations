@@ -767,7 +767,9 @@ function updateMessage(id, text, view) {
  * @returns {string} Formatted HTML string
  */
 function formatMarkdown(text) {
-  return text
+  if (!text) return '';
+  const clean = sanitizeHTML(text);
+  return clean
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
     .replace(/^- (.*)/gm, '<li>$1</li>')
