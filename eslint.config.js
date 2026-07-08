@@ -16,10 +16,11 @@ export default [
       }
     },
     rules: {
-      "no-unused-vars": "warn",
+      "no-unused-vars": "error",
       "no-console": "off",
       "semi": ["error", "always"],
-      "quotes": ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": true }]
+      "quotes": ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": true }],
+      "eqeqeq": ["error", "always"]
     }
   }
 ];

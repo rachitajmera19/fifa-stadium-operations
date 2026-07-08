@@ -47,14 +47,18 @@ The system is engineered as a clean, highly efficient Vanilla web application wi
 ```
 fifa_stadium_operations/
 ├── index.html        # Semantic HTML5 markup, accessibility wrappers & metadata
-├── index.css         # Styling system (glassmorphism, custom scrollbars, colors)
-├── app.js            # Main application state, event handlers, and Speech Web APIs
-├── stadium_map.js    # MetLife Stadium SVG renderer & sector event listeners
-├── ai_engine.js      # Gemini API Fetch client & Local NLP rule matcher
 ├── package.json      # Vite project, scripting, and test dependencies
 ├── vite.config.js    # Vite compilation configs
+├── README.md         # Documentation
+├── src/
+│   ├── app.js            # Main application state, event handlers, and Speech Web APIs
+│   ├── stadium_map.js    # MetLife Stadium SVG renderer & sector event listeners
+│   ├── ai_engine.js      # Gemini API Fetch client & Local NLP rule matcher
+│   └── index.css         # Styling system (glassmorphism, custom scrollbars, colors)
 └── tests/
-    └── app.test.js   # Automated unit tests utilizing native Node.js test runner
+    ├── app.test.js         # Core system unit testing suite verifying all operations and matchers
+    ├── ai_engine.test.js   # Automated unit tests for NLP matching, sanitation, keys
+    └── stadium_map.test.js # Automated unit tests for stadium layout and state mutations
 ```
 
 ---
@@ -68,10 +72,10 @@ Aegis includes a full automated test suite using **Node.js v24's native test run
 npm run test
 ```
 The test suite validates:
-1. **Stadium Map:** Sector configurations, gates mapping, and SVG coordinates integrity.
-2. **AI Configurations:** Save, load, and validation of local Gemini API keys.
-3. **Simulated NLP Engine:** Keyword classification and context-aware responses (concessions, restrooms, transit, fallback).
-4. **Localization:** Multi-language greetings and translations.
+1. **Core Testing (`tests/app.test.js`):** Unified validation for SVG coordinates, telemetry mutations, XSS sanitization, TF-IDF queries, API parameters, and fallback NLP responses.
+2. **Stadium Map & Telemetry (`tests/stadium_map.test.js`):** Sector configurations, gates mapping, coordinate formats, and state mutations (risk level drops and capacity updates).
+3. **AI Engine & NLP Matching (`tests/ai_engine.test.js`):** XSS prevention (HTML entity escaping), query tokenization and stopword removal, API key lifecycle settings, and local TF-IDF vector matching (stemming validation).
+4. **Localization:** Multi-language greetings (Spanish and French triggers).
 5. **API Calls:** Mock fetch execution to Google AI Studio endpoints.
 
 ---
