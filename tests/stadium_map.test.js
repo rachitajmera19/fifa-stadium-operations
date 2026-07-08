@@ -1,22 +1,30 @@
+/**
+ * @file stadium_map.test.js
+ * @description Unit testing suite evaluating the dynamic SVG map coordinates, sector risk levels, and dispatch state mutations.
+ */
+
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-// Mock DOM document object for Node.js environment
+// Mock DOM document object for Node.js environment (unused parameters removed to avoid ESLint warnings)
 global.document = {
-  getElementById(id) {
+  getElementById() {
     return {
       classList: {
-        contains(name) { return false; }
+        contains() { return false; }
       },
       className: '',
-      setAttribute(name, val) {}
+      setAttribute() {}
     };
   }
 };
 
 import { sectorsData, updateSectorState } from '../src/stadium_map.js';
 
-test('Stadium Map - Sectors configurations and coordinates validation', (t) => {
+/**
+ * Asserts that sectors coordinates configurations exist and start with SVG path instructions.
+ */
+test('Stadium Map - Sectors configurations and coordinates validation', () => {
   assert.ok(sectorsData, 'sectorsData should be defined');
   assert.ok(sectorsData['sector-north'], 'North Stand sector should exist');
   assert.ok(sectorsData['sector-south'], 'South Stand sector should exist');
@@ -32,7 +40,10 @@ test('Stadium Map - Sectors configurations and coordinates validation', (t) => {
   assert.match(sectorsData['sector-south'].coordinates, /^M\s/, 'South Stand SVG coordinates should start with M');
 });
 
-test('Stadium Map - Sector Status mutations and alerts update', (t) => {
+/**
+ * Asserts that updateSectorState successfully mutates capacities and risk profiles of active sectors.
+ */
+test('Stadium Map - Sector Status mutations and alerts update', () => {
   // Test initial state
   assert.equal(sectorsData['sector-east'].risk, 'medium');
   assert.equal(sectorsData['sector-east'].capacity, 78);

@@ -1,5 +1,7 @@
-// Aegis FIFA 2026 Smart Stadium - AI Engine & NLP Tests
-// Executed using Node.js v24+ native test runner
+/**
+ * @file ai_engine.test.js
+ * @description Unit testing suite for Aegis AI Engine NLP functions, key configuration mutations, and HTML XSS sanitizers.
+ */
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -12,15 +14,15 @@ global.localStorage = {
   removeItem(key) { delete this.store[key]; }
 };
 
-// Mock fetch for Node.js
-global.fetch = async (url, options) => {
+// Mock fetch for Node.js (unused parameters removed to avoid ESLint errors)
+global.fetch = async () => {
   return {
     ok: true,
     json: async () => ({
       candidates: [
         {
           content: {
-            parts: [{ text: "Mocked Gemini Response from MetLife Stadium Operations AI." }]
+            parts: [{ text: 'Mocked Gemini Response from MetLife Stadium Operations AI.' }]
           }
         }
       ]
@@ -28,9 +30,14 @@ global.fetch = async (url, options) => {
   };
 };
 
-import { askAegis, setApiKey, getApiKey, isApiConfigured, sanitizeHTML, tokenizeQuery, getSimulatedResponse } from '../src/ai_engine.js';
+// Removed unused 'getSimulatedResponse' from import statement
+import { askAegis, setApiKey, getApiKey, isApiConfigured, sanitizeHTML, tokenizeQuery } from '../src/ai_engine.js';
 
-test('Security - HTML Sanitation & XSS Escaping', (t) => {
+/**
+ * Verifies that dangerous HTML entity vectors (e.g. script injections, quotes)
+ * are cleanly sanitized before presentation or DB operations.
+ */
+test('Security - HTML Sanitation & XSS Escaping', () => {
   const xssInput = '<script>alert("Hacked!")</script>';
   const cleanOutput = sanitizeHTML(xssInput);
   
@@ -44,7 +51,11 @@ test('Security - HTML Sanitation & XSS Escaping', (t) => {
   assert.equal(sanitizeHTML(safeInput), safeInput, 'Safe alphanumeric text should remain unchanged');
 });
 
-test('NLP Indexing - Tokenizer & Stopwords filtering', (t) => {
+/**
+ * Asserts that stopword tokens are cleanly stripped, leaving only the primary
+ * target keywords for TF-IDF weight queries.
+ */
+test('NLP Indexing - Tokenizer & Stopwords filtering', () => {
   const query = 'How do I find a cold burger in the stand?';
   const { tokens } = tokenizeQuery(query);
   
@@ -62,7 +73,11 @@ test('NLP Indexing - Tokenizer & Stopwords filtering', (t) => {
   assert.ok(tokens.includes('stand'), 'Key token should be saved');
 });
 
-test('AI Config - Gemini API connection parameters', (t) => {
+/**
+ * Asserts that setApiKey correctly commits keys to browser cache and updates
+ * the live Gemini connection status.
+ */
+test('AI Config - Gemini API connection parameters', () => {
   setApiKey('');
   assert.equal(getApiKey(), '', 'API Key should be empty initially');
   assert.equal(isApiConfigured(), false, 'isApiConfigured should be false when key is empty');
@@ -74,7 +89,11 @@ test('AI Config - Gemini API connection parameters', (t) => {
   setApiKey('');
 });
 
-test('NLP Matcher - TF-IDF local scoring with stemming', async (t) => {
+/**
+ * Asserts that local TF-IDF matcher matches partial word boundary stems for
+ * standard fan and staff stadium operations commands.
+ */
+test('NLP Matcher - TF-IDF local scoring with stemming', async () => {
   setApiKey('');
 
   // Concessions matching with plural stemming
@@ -101,13 +120,19 @@ test('NLP Matcher - TF-IDF local scoring with stemming', async (t) => {
   assert.match(staffFallback, /Aegis Operational Guidance|Live Infrastructure Map/, 'Unrelated staff queries should return staff fallback directions');
 });
 
-test('Translations - Spanish Translation Trigger', async (t) => {
+/**
+ * Asserts that Spanish greeting inputs correctly route to the Spanish translation welcome message.
+ */
+test('Translations - Spanish Translation Trigger', async () => {
   setApiKey('');
   const spanish = await askAegis('hola, gracias');
   assert.match(spanish, /Bienvenido al asistente de Aegis/, 'Hola query should match spanish welcome greeting');
 });
 
-test('Gemini Mocking - Connect API fetch call', async (t) => {
+/**
+ * Asserts that an active API key query triggers fetch calls to Gemini endpoint.
+ */
+test('Gemini Mocking - Connect API fetch call', async () => {
   setApiKey('AIzaSyDummyKey_ValidConnection');
   const api = await askAegis('simulate active api query');
   assert.equal(api, 'Mocked Gemini Response from MetLife Stadium Operations AI.', 'AI Engine should fetch and parse Gemini response correctly when key is set');
