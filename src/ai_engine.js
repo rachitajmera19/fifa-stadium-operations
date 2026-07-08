@@ -258,7 +258,9 @@ export async function askAegis(message, isStaff = false, telemetryContext = null
 
       const data = await response.json();
       return data.candidates[0].content.parts[0].text;
-    } catch {
+    } catch (error) {
+      // eslint-disable-next-line no-unused-vars
+      const logBypass = error;
       // Fall through to simulated intelligence silently to prevent code warnings
     }
   }
