@@ -142,7 +142,7 @@ export function renderStadiumMap(containerId, onSelectSector) {
   const sectors = container.querySelectorAll('.stadium-sector');
   sectors.forEach(sectorEl => {
     // Click Event
-    sectorEl.addEventListener('click', (e) => {
+    sectorEl.addEventListener('click', () => {
       selectSector(container, sectorEl.id, onSelectSector);
     });
 

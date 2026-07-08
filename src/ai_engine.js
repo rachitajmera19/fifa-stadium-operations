@@ -164,7 +164,7 @@ const STOP_WORDS = new Set(['a', 'an', 'the', 'is', 'are', 'was', 'were', 'and',
 export function tokenizeQuery(message) {
   const clean = sanitizeHTML(message.trim());
   const tokens = clean.toLowerCase()
-    .replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, "")
+    .replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, '')
     .split(/\s+/)
     .filter(token => token && !STOP_WORDS.has(token));
   return { clean, tokens };
@@ -258,7 +258,7 @@ export async function askAegis(message, isStaff = false, telemetryContext = null
 
       const data = await response.json();
       return data.candidates[0].content.parts[0].text;
-    } catch (e) {
+    } catch {
       // Fall through to simulated intelligence silently to prevent code warnings
     }
   }
