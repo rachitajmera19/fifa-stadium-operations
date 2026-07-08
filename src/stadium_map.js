@@ -58,6 +58,11 @@ export const sectorsData = {
   }
 };
 
+/**
+ * Renders the interactive MetLife Stadium SVG map inside the specified container.
+ * @param {string} containerId The DOM element identifier.
+ * @param {function} onSelectSector Callback trigger when a sector path is clicked or activated.
+ */
 export function renderStadiumMap(containerId, onSelectSector) {
   const container = document.getElementById(containerId);
   if (!container) return;
@@ -156,6 +161,12 @@ export function renderStadiumMap(containerId, onSelectSector) {
   });
 }
 
+/**
+ * Updates CSS classes and ARIA states when a sector is selected.
+ * @param {HTMLElement} container The stadium map parent container.
+ * @param {string} sectorId The clicked sector element ID.
+ * @param {function} onSelectSector Callback trigger function.
+ */
 function selectSector(container, sectorId, onSelectSector) {
   // Clear previous selection
   container.querySelectorAll('.stadium-sector').forEach(s => {
@@ -176,6 +187,11 @@ function selectSector(container, sectorId, onSelectSector) {
   }
 }
 
+/**
+ * Dynamically modifies sector parameters in memory and updates path classes/labels.
+ * @param {string} sectorId Target sector element ID.
+ * @param {object} updates Map of keys and updated values to assign.
+ */
 export function updateSectorState(sectorId, updates) {
   if (sectorsData[sectorId]) {
     Object.assign(sectorsData[sectorId], updates);

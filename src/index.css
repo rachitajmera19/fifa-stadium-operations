@@ -27,8 +27,8 @@
   
   /* Typography Scale */
   --text-primary: hsl(0, 0%, 98%);
-  --text-secondary: hsl(230, 20%, 75%);
-  --text-muted: hsl(230, 15%, 55%);
+  --text-secondary: hsl(230, 20%, 82%);
+  --text-muted: hsl(230, 20%, 70%);
   
   /* Tokens */
   --radius-sm: 8px;
